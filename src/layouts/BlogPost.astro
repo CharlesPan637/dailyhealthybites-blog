@@ -42,7 +42,7 @@ const displayDate = lastReviewedDate || updatedDate || pubDate;
 
 <html lang="en">
 <head>
-  <BaseHead title={title + ' - Healthy Daily Bites'} description={description} image={heroPath.src} ogType="article" pubDate={pubDate} updatedDate={displayDate} />
+  <BaseHead title={title + ' - Daily Healthy Bites'} description={description} image={heroPath.src} ogType="article" pubDate={pubDate} updatedDate={displayDate} />
   <SchemaOrg
     title={title}
     description={description}
@@ -248,7 +248,7 @@ const displayDate = lastReviewedDate || updatedDate || pubDate;
     window.handleShare = function(e, btn) {
       e.stopPropagation();
       const url = window.location.href;
-      const title = document.title.replace(' - Healthy Daily Bites', '');
+      const title = document.title.replace(' - Daily Healthy Bites', '');
       // Try Web Share API first (mobile native share sheet)
       if (navigator.share) {
         navigator.share({ title, url }).catch(function() {
@@ -277,7 +277,7 @@ const displayDate = lastReviewedDate || updatedDate || pubDate;
     window.handleBookmark = function(e, btn) {
       e.stopPropagation();
       const slug = window.location.pathname.replace(/\/$/, '');
-      const title = document.title.replace(' - Healthy Daily Bites', '');
+      const title = document.title.replace(' - Daily Healthy Bites', '');
       const bookmarks = JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || '{}');
       const icon = btn.querySelector('.bookmark-icon');
 

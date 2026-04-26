@@ -1,0 +1,182 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import SEOHead from '../components/SEOHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<html lang="en">
+<head>
+  <BaseHead title={'Privacy Policy - ' + SITE_TITLE} description="Privacy policy for Daily Healthy Bites — how we collect, use, and protect your data." />
+  <SEOHead title={'Privacy Policy - ' + SITE_TITLE} description="Privacy policy for Daily Healthy Bites — how we collect, use, and protect your data." />
+</head>
+<body>
+  <Header />
+  <div id="reading-progress"></div>
+
+  <main class="legal-page">
+    <div class="container">
+      <h1>Privacy Policy</h1>
+      <p class="last-updated"><em>Last updated: April 26, 2026</em></p>
+
+      <section>
+        <h2>1. Introduction</h2>
+        <p>Daily Healthy Bites ("we," "our," or "us") respects your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website at <a href="https://dailyhealthybites.net">dailyhealthybites.net</a> (the "Site") and use our mobile application ("App").</p>
+        <p>Our mobile application is a Trusted Web Activity (TWA) that displays our website content. The data practices described in this policy apply equally to both the Site and the App.</p>
+        <p>By using the Site or App, you agree to the collection and use of information in accordance with this policy.</p>
+      </section>
+
+      <section>
+        <h2>2. Information We Collect</h2>
+        <h3>2.1 Information You Provide</h3>
+        <ul>
+          <li><strong>Email address</strong> — when you subscribe to our newsletter</li>
+          <li><strong>Contact information</strong> — when you email us at contact@dailyhealthybites.net</li>
+        </ul>
+        <h3>2.2 Information Collected Automatically</h3>
+        <ul>
+          <li><strong>Device information</strong> — browser type, operating system, screen size (anonymous, collected only for technical compatibility purposes)</li>
+          <li><strong>Cookies</strong> — we use minimal cookies for basic functionality (see Section 5)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>3. How We Use Your Information</h2>
+        <ul>
+          <li>To deliver our newsletter (only if you subscribe)</li>
+          <li>To ensure technical compatibility and improve site performance</li>
+          <li>To respond to your inquiries</li>
+          <li>To comply with legal obligations</li>
+        </ul>
+        <p><strong>We never sell your personal information to third parties.</strong></p>
+        <h3>Legal Basis for Processing (GDPR)</h3>
+        <p>If you are located in the EU/EEA, we process your personal data on the following legal bases:</p>
+        <ul>
+          <li><strong>Consent</strong> — we process your email address solely on the basis of your explicit consent when you subscribe to our newsletter. You may withdraw this consent at any time.</li>
+          <li><strong>Legitimate interests</strong> — we process basic device information to ensure technical compatibility and improve the performance of our website.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>4. Third-Party Services</h2>
+        <p>We use the following third-party services, which may process limited data as described:</p>
+        <ul>
+          <li><strong>Google Fonts</strong> — for typography. Google may process your IP address per <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy</a>. We are evaluating self-hosting fonts to eliminate this data transfer entirely.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>5. Cookies</h2>
+        <p>We use minimal cookies for essential functionality only. No tracking or advertising cookies are used. You can disable cookies in your browser settings, though some features may not function properly.</p>
+      </section>
+
+      <section>
+        <h2>6. Data Retention</h2>
+        <ul>
+          <li><strong>Newsletter email addresses</strong> — retained only for as long as you remain subscribed. You may unsubscribe at any time using the link in every email.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>7. Your Rights</h2>
+        <p>Depending on your location, you may have the right to:</p>
+        <ul>
+          <li>Access the personal data we hold about you</li>
+          <li>Request correction or deletion of your data</li>
+          <li>Withdraw consent at any time</li>
+          <li>Object to or restrict certain processing</li>
+          <li>Request data portability</li>
+          <li>File a complaint with your local data protection authority</li>
+        </ul>
+        <p><strong>To exercise any of these rights</strong>, please email us at contact@dailyhealthybites.net.</p>
+        <p><strong>If you are located in Ireland or the EU/EEA</strong>, you may also file a complaint with the Irish Data Protection Commission (DPC) at <a href="https://www.dataprotection.ie">www.dataprotection.ie</a>, or with the supervisory authority in your country of residence.</p>
+      </section>
+
+      <section>
+        <h2>8. Children's Privacy</h2>
+        <p>Our Site and App are not intended for children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal data, please contact us immediately at contact@dailyhealthybites.net and we will take steps to delete that information.</p>
+      </section>
+
+      <section>
+        <h2>9. Security</h2>
+        <p>We implement reasonable technical and organisational security measures to protect your information. However, no method of electronic transmission or storage is 100% secure, and we cannot guarantee absolute security.</p>
+      </section>
+
+      <section>
+        <h2>10. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated "Last updated" date. We encourage you to review this page periodically.</p>
+      </section>
+
+      <section>
+        <h2>11. Data Controller & Contact</h2>
+        <p>The data controller responsible for your personal data is:</p>
+        <p><strong>Daily Healthy Bites</strong><br />
+        Email: contact@dailyhealthybites.net<br />
+        Website: <a href="https://dailyhealthybites.net">dailyhealthybites.net</a></p>
+        <p>For any questions about this Privacy Policy or how we handle your data, please contact us at the email address above.</p>
+      </section>
+
+      <p class="footer-tagline"><em>🌿 Daily Healthy Bites — Science-backed health and longevity insights. Evidence you can trust, advice you can use.</em></p>
+    </div>
+  </main>
+
+  <Footer />
+</body>
+</html>
+
+<style is:global>
+  @import url('../styles/global.css');
+</style>
+
+<style is:inline>
+  .legal-page {
+    padding: var(--space-8) var(--space-4);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .legal-page h1 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    margin-bottom: var(--space-1);
+  }
+  .last-updated {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+  .legal-page section {
+    margin-bottom: var(--space-6);
+  }
+  .legal-page h2 {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    margin-bottom: var(--space-2);
+    color: var(--color-accent);
+  }
+  .legal-page h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: var(--space-3) 0 var(--space-1);
+  }
+  .legal-page ul {
+    padding-left: var(--space-5);
+    margin-bottom: var(--space-2);
+  }
+  .legal-page li {
+    margin-bottom: var(--space-1);
+    line-height: 1.6;
+  }
+  .legal-page p {
+    line-height: 1.7;
+    margin-bottom: var(--space-2);
+  }
+  .legal-page a {
+    color: var(--color-accent);
+  }
+  .footer-tagline {
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+    margin-top: var(--space-8);
+  }
+</style>
