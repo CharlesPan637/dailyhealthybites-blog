@@ -5,6 +5,7 @@ import SEOHead from '../components/SEOHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import InstallPrompt from '../components/InstallPrompt.astro';
+import SkipLink from '../components/SkipLink.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { Image } from 'astro:assets';
 import blogPlaceholder from '../assets/blog-placeholder-1.jpg';
@@ -49,10 +50,11 @@ const slugToCategoryClass = (cat: string) => {
   })}></script>
 </head>
 <body>
+  <SkipLink />
   <Header />
   <div id="reading-progress"></div>
 
-  <main class="homepage">
+  <main class="homepage" id="main-content">
     <section class="hero-section">
       <h1>{SITE_TITLE}</h1>
       <p class="sub">{SITE_DESCRIPTION}</p>
@@ -61,6 +63,7 @@ const slugToCategoryClass = (cat: string) => {
 
     {posts.length > 0 && (
       <div class="container">
+        <h2 class="section-heading">Latest Articles</h2>
         {/* Featured hero: first, most recent post */}
         {posts[0] && (
           <a href={'/posts/' + posts[0].id + '/'} class="hero-card-wrapper">
@@ -239,6 +242,16 @@ const slugToCategoryClass = (cat: string) => {
     max-width: var(--page-width);
     margin: 0 auto;
     padding: 0 var(--space-4);
+  }
+
+  .section-heading {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: var(--space-6) 0 var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--color-accent-bg);
   }
 
   /* Hero card on homepage */

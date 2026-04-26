@@ -5,6 +5,7 @@ import SEOHead from '../../components/SEOHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
+import SkipLink from '../../components/SkipLink.astro';
 import { SITE_TITLE } from '../../consts';
 import { Image } from 'astro:assets';
 import blogPlaceholder from '../../assets/blog-placeholder-1.jpg';
@@ -34,10 +35,11 @@ const activeCategories = allCategories.filter(cat => posts.some(p => p.data.cate
   <SEOHead title={'All Posts - ' + SITE_TITLE} description={'All articles from Daily Healthy Bites'} />
 </head>
 <body>
+  <SkipLink />
   <Header />
   <div id="reading-progress"></div>
 
-  <main class="posts-page">
+  <main class="posts-page" id="main-content">
     <div class="container">
       <h1>All Posts</h1>
       <p class="lead">The complete archive, newest first. Every claim backed by primary literature.</p>

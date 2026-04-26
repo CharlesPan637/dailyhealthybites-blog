@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import SEOHead from '../components/SEOHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import SkipLink from '../components/SkipLink.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 ---
@@ -24,10 +25,11 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   })}></script>
 </head>
 <body>
+  <SkipLink />
   <Header />
   <div id="reading-progress"></div>
 
-  <main class="about-page">
+  <main class="about-page" id="main-content">
     <div class="container">
       <h1>About Daily Healthy Bites</h1>
       <p class="lead">Bridging the gap between complex scientific research and practical health advice. Every article grounded in primary literature.</p>

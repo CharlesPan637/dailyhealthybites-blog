@@ -8,6 +8,7 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import InstallPrompt from '../components/InstallPrompt.astro';
+import SkipLink from '../components/SkipLink.astro';
 import blogPlaceholder from '../assets/blog-placeholder-1.jpg';
 
 const { title, description, pubDate, updatedDate, lastReviewedDate, heroImage, author, readingTime, category, tags, faqs } = Astro.props;
@@ -59,6 +60,7 @@ const displayDate = lastReviewedDate || updatedDate || pubDate;
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
 </head>
 <body>
+  <SkipLink />
   <Header />
   <div id="reading-progress"></div>
 
@@ -88,7 +90,7 @@ const displayDate = lastReviewedDate || updatedDate || pubDate;
     </aside>
 
     {/* Main article content */}
-    <main class="article-main">
+    <main class="article-main" id="main-content">
       <article>
         {/* Hero Image with title overlaid */}
         <div class="article-hero">

@@ -1,0 +1,31 @@
+---
+// SkipLink.astro — Skip to main content link for keyboard accessibility
+---
+
+<a href="#main-content" class="skip-link">
+  Skip to main content
+</a>
+
+<style>
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 16px;
+    z-index: 10000;
+    padding: 12px 24px;
+    background: var(--color-accent, #2e7d32);
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: top 0.2s ease;
+  }
+
+  .skip-link:focus {
+    top: 0;
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+  }
+</style>

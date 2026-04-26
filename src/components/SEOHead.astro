@@ -15,7 +15,7 @@ const safeDesc = description?.length > 155 ? description.substring(0, 152) + '..
 const ogImage = heroImage?.startsWith('http') ? heroImage : (heroImage ? site + heroImage : site + '/og-image.png');
 ---
 
-<meta name="description" content={safeDesc} />
+{/* description meta tag already in BaseHead.astro — no duplicate here */}
 
 {tags && tags.length > 0 && <meta name="keywords" content={tags.join(', ')} />}
 
