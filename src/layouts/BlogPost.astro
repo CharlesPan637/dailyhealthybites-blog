@@ -7,6 +7,7 @@ import SchemaOrg from '../components/SchemaOrg.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import TableOfContents from '../components/TableOfContents.astro';
+import InstallPrompt from '../components/InstallPrompt.astro';
 import blogPlaceholder from '../assets/blog-placeholder-1.jpg';
 
 const { title, description, pubDate, updatedDate, lastReviewedDate, heroImage, author, readingTime, category, tags, faqs } = Astro.props;
@@ -199,6 +200,7 @@ const displayDate = lastReviewedDate || updatedDate || pubDate;
   </div>
 
   <Footer />
+  <InstallPrompt />
 
   <script>
     // Newsletter subscribe handler

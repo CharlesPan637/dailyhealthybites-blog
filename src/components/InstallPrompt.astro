@@ -1,0 +1,262 @@
+---
+// InstallPrompt.astro — Smart PWA install banner with iOS/Android detection
+// Shows after user scrolls 300px (engagement signal) or after 3s on iOS
+---
+
+<div id="pwa-install-banner" class="pwa-banner" style="display:none" aria-label="Install app">
+  <div class="pwa-banner__inner">
+    <div class="pwa-banner__header">
+      <div class="pwa-banner__title">
+        <span class="pwa-banner__icon">📱</span>
+        <span>Install App</span>
+      </div>
+      <button id="pwa-dismiss" class="pwa-banner__close" aria-label="Dismiss">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="pwa-banner__body">
+      <p class="pwa-banner__desc">
+        Get instant access to <strong>Daily Healthy Bites</strong> — works offline too!
+      </p>
+      <div id="pwa-android-actions" class="pwa-banner__actions" style="display:none">
+        <button id="pwa-install-btn" class="pwa-banner__install">Install Now</button>
+        <button id="pwa-later-btn" class="pwa-banner__later">Later</button>
+      </div>
+      <div id="pwa-ios-instructions" class="pwa-banner__ios" style="display:none">
+        <ol class="pwa-banner__steps">
+          <li>Tap the <strong>Share</strong> button <svg class="pwa-banner__share-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L8 6h3v7h2V6h3L12 2zM4 18v2h16v-2H4z"/></svg></li>
+          <li>Scroll down and tap <strong>&ldquo;Add to Home Screen&rdquo;</strong></li>
+          <li>Tap <strong>&ldquo;Add&rdquo;</strong> in the top right</li>
+        </ol>
+      </div>
+    </div>
+    <div class="pwa-banner__accent"></div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const DISMISSED_KEY = 'pwa-install-dismissed';
+    const BANNER_ID = 'pwa-install-banner';
+    const ANDROID_ID = 'pwa-android-actions';
+    const IOS_ID = 'pwa-ios-instructions';
+
+    let deferredPrompt: any = null;
+    const isIos = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const wasDismissed = localStorage.getItem(DISMISSED_KEY);
+
+    if (isStandalone || wasDismissed) return;
+
+    function showBanner() {
+      const banner = document.getElementById(BANNER_ID);
+      if (!banner) return;
+      banner.style.display = 'block';
+      requestAnimationFrame(() => banner.classList.add('pwa-banner--visible'));
+    }
+
+    function hideBanner() {
+      const banner = document.getElementById(BANNER_ID);
+      if (!banner) return;
+      banner.classList.remove('pwa-banner--visible');
+      setTimeout(() => banner.style.display = 'none', 300);
+    }
+
+    function dismiss() {
+      localStorage.setItem(DISMISSED_KEY, 'true');
+      hideBanner();
+    }
+
+    // Android/Chrome: capture beforeinstallprompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      // Show Android actions
+      const androidActions = document.getElementById(ANDROID_ID);
+      if (androidActions) androidActions.style.display = 'flex';
+
+      // Show after scroll engagement
+      const onScroll = () => {
+        if (window.scrollY > 300) {
+          showBanner();
+          window.removeEventListener('scroll', onScroll);
+        }
+      };
+      window.addEventListener('scroll', onScroll);
+    });
+
+    // iOS: show instructions after delay
+    if (isIos && !isStandalone) {
+      const iosInstructions = document.getElementById(IOS_ID);
+      if (iosInstructions) iosInstructions.style.display = 'block';
+
+      setTimeout(() => {
+        const androidActions = document.getElementById(ANDROID_ID);
+        if (androidActions) androidActions.style.display = 'none';
+        showBanner();
+      }, 3000);
+    }
+
+    // Install button handler
+    document.getElementById('pwa-install-btn')?.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`PWA install: ${outcome}`);
+      deferredPrompt = null;
+      hideBanner();
+    });
+
+    // Dismiss handlers
+    document.getElementById('pwa-dismiss')?.addEventListener('click', dismiss);
+    document.getElementById('pwa-later-btn')?.addEventListener('click', dismiss);
+  })();
+</script>
+
+<style>
+  .pwa-banner {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 9990;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  @media (min-width: 640px) {
+    .pwa-banner {
+      left: auto;
+      right: 24px;
+      bottom: 24px;
+      max-width: 380px;
+    }
+  }
+
+  .pwa-banner--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pwa-banner__inner {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+    border: 1px solid rgba(46, 125, 50, 0.1);
+  }
+
+  .pwa-banner__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  }
+
+  .pwa-banner__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #2e7d32;
+  }
+
+  .pwa-banner__icon {
+    font-size: 18px;
+  }
+
+  .pwa-banner__close {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #4caf50;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+    display: flex;
+    align-items: center;
+  }
+  .pwa-banner__close:hover {
+    opacity: 1;
+  }
+
+  .pwa-banner__body {
+    padding: 16px;
+  }
+
+  .pwa-banner__desc {
+    margin: 0 0 12px;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+  }
+
+  .pwa-banner__actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .pwa-banner__install {
+    flex: 1;
+    padding: 10px 16px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .pwa-banner__install:hover {
+    background: #1b5e20;
+  }
+
+  .pwa-banner__later {
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .pwa-banner__later:hover {
+    color: #333;
+  }
+
+  .pwa-banner__ios {
+    display: none;
+  }
+
+  .pwa-banner__steps {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+    color: #444;
+    line-height: 1.8;
+  }
+
+  .pwa-banner__steps li {
+    margin-bottom: 4px;
+  }
+
+  .pwa-banner__share-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 2px;
+    color: #007aff;
+  }
+
+  .pwa-banner__accent {
+    height: 3px;
+    background: linear-gradient(90deg, #2e7d32, #4caf50, #81c784);
+  }
+</style>

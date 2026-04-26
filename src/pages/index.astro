@@ -4,6 +4,7 @@ import BaseHead from '../components/BaseHead.astro';
 import SEOHead from '../components/SEOHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import InstallPrompt from '../components/InstallPrompt.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { Image } from 'astro:assets';
 import blogPlaceholder from '../assets/blog-placeholder-1.jpg';
@@ -139,6 +140,7 @@ const slugToCategoryClass = (cat: string) => {
   </main>
 
   <Footer />
+  <InstallPrompt />
 
   <script>
     // Newsletter subscribe handler
