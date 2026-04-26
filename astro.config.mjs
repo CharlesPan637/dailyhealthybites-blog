@@ -13,7 +13,7 @@ export default defineConfig({
 		AstroPWA({
 			registerType: 'autoUpdate',
 			manifest: {
-				name: 'Healthy Bits - Daily Healthy Bites',
+				name: 'Daily Healthy Bites',
 				short_name: 'HealthyBites',
 				description: 'Science-backed health and nutrition blog - Mediterranean diet, longevity research, and evidence-based wellness.',
 				theme_color: '#2e7d32',
