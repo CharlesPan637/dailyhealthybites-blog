@@ -1,0 +1,46 @@
+{
+  "packageId": "net.dailyhealthybites.app",
+  "host": "dailyhealthybites.net",
+  "name": "Daily Healthy Bites",
+  "launcherName": "Daily Healthy Bites",
+  "display": "standalone",
+  "orientation": "portrait",
+  "themeColor": "#2e7d32",
+  "backgroundColor": "#ffffff",
+  "startUrl": "/",
+  "iconUrl": "https://dailyhealthybites.net/android-chrome-512x512.png",
+  "maskableIconUrl": "https://dailyhealthybites.net/android-chrome-512x512.png",
+  "monochromeIconUrl": "https://dailyhealthybites.net/android-chrome-192x192.png",
+  "shortcuts": [
+    {
+      "name": "Latest Posts",
+      "shortName": "Posts",
+      "url": "/posts/",
+      "iconUrl": "https://dailyhealthybites.net/android-chrome-192x192.png"
+    }
+  ],
+  "generatorApp": "bubblewrap",
+  "webManifestUrl": "https://dailyhealthybites.net/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {
+    "locationDelegation": {
+      "enabled": false
+    },
+    "playBilling": {
+      "enabled": false
+    }
+  },
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "signingKey": {
+    "path": "keystore.jks",
+    "alias": "dailyhealthybites"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "minSdkVersion": 21,
+  "targetSdkVersion": 34
+}
