@@ -12,7 +12,7 @@ interface Props {
 const { description, heroImage, tags } = Astro.props;
 const site = 'https://dailyhealthybites.net';
 const safeDesc = description?.length > 155 ? description.substring(0, 152) + '...' : description;
-const ogImage = heroImage?.startsWith('http') ? heroImage : (heroImage ? site + heroImage : site + '/favicon.svg');
+const ogImage = heroImage?.startsWith('http') ? heroImage : (heroImage ? site + heroImage : site + '/og-image.png');
 ---
 
 <meta name="description" content={safeDesc} />
@@ -26,7 +26,7 @@ const ogImage = heroImage?.startsWith('http') ? heroImage : (heroImage ? site + 
   "@type": "Organization",
   "name": "Healthy Daily Bites",
   "url": site,
-  "logo": { "@type": "ImageObject", "url": site + "/favicon.svg" },
+  "logo": { "@type": "ImageObject", "url": site + "/blog-logo-256.png" },
   "description": "Science-backed health and longevity insights. Evidence you can trust, advice you can use.",
   "foundingDate": "2026",
   "contactPoint": {

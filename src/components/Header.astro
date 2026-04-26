@@ -6,7 +6,7 @@ import HeaderLink from './HeaderLink.astro';
 <header class="site-header">
 	<nav>
 		<a href="/" class="logo">
-			<span class="logo__icon">&#x1F33F;</span>
+			<img src="/logo-header.png" alt="Daily Healthy Bites logo" class="logo__img" width="28" height="28" />
 			<span class="logo__text">{SITE_TITLE}</span>
 		</a>
 		<div class="nav-links">
@@ -58,7 +58,7 @@ nav {
 	color: var(--color-text);
 }
 
-.logo__icon { font-size: 1.25rem; }
+.logo__img { width: 28px; height: 28px; border-radius: 4px; }
 
 .nav-links {
 	display: flex;
