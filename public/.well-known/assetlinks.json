@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "net.dailyhealthybites.app",
+    "sha256_cert_fingerprints": [
+      "B5:C1:4E:66:7A:A9:70:89:2F:26:BD:40:A0:8A:02:4A:DC:60:72:B5:10:9E:FC:03:A9:C4:28:B3:92:CC:E0:7A"
+    ]
+  }
+}]
