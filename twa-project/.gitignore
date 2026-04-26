@@ -1,0 +1,13 @@
+# Build artifacts
+.gradle/
+app/
+build/
+local.properties
+gradlew
+gradlew.bat
+gradle/
+build.gradle
+settings.gradle
+manifest-checksum.txt
+*.idsig
+store_icon.png

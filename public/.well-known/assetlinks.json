@@ -2,9 +2,9 @@
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
-    "package_name": "net.dailyhealthybites.app",
+    "package_name": "net.dailyhealthybites.twa",
     "sha256_cert_fingerprints": [
-      "B5:C1:4E:66:7A:A9:70:89:2F:26:BD:40:A0:8A:02:4A:DC:60:72:B5:10:9E:FC:03:A9:C4:28:B3:92:CC:E0:7A"
+      "3E:7D:BE:AF:A1:ED:77:53:8C:4F:B2:96:59:5F:65:BC:40:D3:E5:F9:F0:FB:55:96:46:24:2B:46:B6:50:FD:79"
     ]
   }
 }]

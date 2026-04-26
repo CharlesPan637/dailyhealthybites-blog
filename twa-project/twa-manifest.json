@@ -1,46 +1,47 @@
 {
-  "packageId": "net.dailyhealthybites.app",
+  "packageId": "net.dailyhealthybites.twa",
   "host": "dailyhealthybites.net",
   "name": "Daily Healthy Bites",
-  "launcherName": "Daily Healthy Bites",
+  "launcherName": "HealthyBites",
   "display": "standalone",
-  "orientation": "portrait",
-  "themeColor": "#2e7d32",
-  "backgroundColor": "#ffffff",
+  "themeColor": "#2E7D32",
+  "themeColorDark": "#000000",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#FFFFFF",
+  "enableNotifications": true,
   "startUrl": "/",
   "iconUrl": "https://dailyhealthybites.net/android-chrome-512x512.png",
   "maskableIconUrl": "https://dailyhealthybites.net/android-chrome-512x512.png",
-  "monochromeIconUrl": "https://dailyhealthybites.net/android-chrome-192x192.png",
-  "shortcuts": [
-    {
-      "name": "Latest Posts",
-      "shortName": "Posts",
-      "url": "/posts/",
-      "iconUrl": "https://dailyhealthybites.net/android-chrome-192x192.png"
-    }
-  ],
-  "generatorApp": "bubblewrap",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "android.keystore",
+    "alias": "dailyhealthybites"
+  },
+  "appVersionName": "2",
+  "appVersionCode": 2,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://dailyhealthybites.net/manifest.webmanifest",
   "fallbackType": "customtabs",
-  "features": {
-    "locationDelegation": {
-      "enabled": false
-    },
-    "playBilling": {
-      "enabled": false
-    }
-  },
+  "features": {},
   "alphaDependencies": {
     "enabled": false
   },
   "enableSiteSettingsShortcut": true,
   "isChromeOSOnly": false,
-  "signingKey": {
-    "path": "keystore.jks",
-    "alias": "dailyhealthybites"
-  },
-  "appVersionName": "1.0.0",
-  "appVersionCode": 1,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://dailyhealthybites.net/",
   "minSdkVersion": 21,
-  "targetSdkVersion": 34
+  "orientation": "portrait-primary",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "protocolHandlers": [],
+  "fileHandlers": [],
+  "launchHandlerClientMode": "",
+  "displayOverride": [],
+  "appVersion": "2"
 }
