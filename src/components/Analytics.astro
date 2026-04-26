@@ -1,0 +1,22 @@
+---
+// Privacy-focused analytics for Daily Healthy Bites
+// Uses Plausible Analytics (self-hosted or cloud)
+// No cookies, GDPR compliant, lightweight
+
+interface Props {
+  domain?: string;
+  src?: string;
+}
+
+const { 
+  domain = 'dailyhealthybites.net',
+  src = 'https://plausible.io/js/script.js' 
+} = Astro.props;
+---
+
+<!-- Plausible Analytics - Privacy-focused, no cookies -->
+<script defer data-domain={domain} src={src}></script>
+
+<!-- Fallback: Self-hosted Plausible -->
+<!-- Uncomment if self-hosting: -->
+<!-- <script defer data-domain={domain} src="https://stats.dailyhealthybites.net/js/script.js"></script> -->
