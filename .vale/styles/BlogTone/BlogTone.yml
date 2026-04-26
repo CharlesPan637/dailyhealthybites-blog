@@ -1,0 +1,17 @@
+extends: existence
+message: "Avoid '%s'. Use conversational, evidence-based phrasing instead."
+link: https://dailyhealthybites.net
+level: warning
+tokens:
+  - leverage
+  - paradigm
+  - synergize
+  - in conclusion
+  - it is important to note
+  - it should be noted
+  - utilize
+  - cutting-edge
+  - groundbreaking
+  - game-changer
+  - state-of-the-art
+  - revolutionize

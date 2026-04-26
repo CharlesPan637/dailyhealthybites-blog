@@ -1,0 +1,20 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "color-no-invalid-hex": true,
+    "no-duplicate-selectors": true,
+    "font-family-no-missing-generic-family-keyword": null,
+    "color-hex-length": "long",
+    "unit-allowed-list": ["px", "rem", "em", "%", "vh", "vw", "deg", "s", "ch"],
+    "number-max-precision": 5,
+    "no-descending-specificity": null,
+    "declaration-block-single-line-max-declarations": 3,
+    "custom-property-pattern": null,
+    "selector-class-pattern": null,
+    "no-invalid-position-at-import-rule": null,
+    "no-invalid-position-declaration": null,
+    "declaration-property-value-allowed-list": null,
+    "property-no-deprecated": null,
+    "block-no-empty": null
+  }
+}

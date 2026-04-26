@@ -1,0 +1,37 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  pubDate?: Date;
+  heroImage?: string;
+  tags?: string[];
+  author?: string;
+  pageType?: 'article' | 'website';
+}
+
+const { description, heroImage, tags } = Astro.props;
+const site = 'https://dailyhealthybites.net';
+const safeDesc = description?.length > 155 ? description.substring(0, 152) + '...' : description;
+const ogImage = heroImage?.startsWith('http') ? heroImage : (heroImage ? site + heroImage : site + '/favicon.svg');
+---
+
+<meta name="description" content={safeDesc} />
+
+{tags && tags.length > 0 && <meta name="keywords" content={tags.join(', ')} />}
+
+<link rel="canonical" href={site + Astro.url.pathname} />
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Healthy Daily Bites",
+  "url": site,
+  "logo": { "@type": "ImageObject", "url": site + "/favicon.svg" },
+  "description": "Science-backed health and longevity insights. Evidence you can trust, advice you can use.",
+  "foundingDate": "2026",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "contact@dailyhealthybites.net",
+    "contactType": "customer support"
+  }
+})}></script>

@@ -1,0 +1,140 @@
+---
+import { SITE_TITLE } from '../consts';
+import HeaderLink from './HeaderLink.astro';
+---
+
+<header class="site-header">
+	<nav>
+		<a href="/" class="logo">
+			<span class="logo__icon">&#x1F33F;</span>
+			<span class="logo__text">{SITE_TITLE}</span>
+		</a>
+		<div class="nav-links">
+			<HeaderLink href="/">Home</HeaderLink>
+			<HeaderLink href="/posts">Blog</HeaderLink>
+			<HeaderLink href="/about">About</HeaderLink>
+		</div>
+		<div class="nav-actions">
+			<a href="/rss.xml" class="nav-btn" aria-label="RSS Feed">
+				<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+					<path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19.02 7.2 20.18 6.18 20.18A2.18 2.18 0 0 1 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
+				</svg>
+			</a>
+		</div>
+		<button class="mobile-menu-btn" aria-label="Toggle menu" onclick="this.closest('.site-header').classList.toggle('open')">
+			<span></span><span></span><span></span>
+		</button>
+	</nav>
+</header>
+
+<style>
+.site-header {
+	background: var(--color-surface);
+	border-bottom: 1px solid var(--color-border);
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	padding: 0 var(--space-4);
+}
+
+nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 56px;
+	max-width: var(--page-width);
+	margin: 0 auto;
+	gap: var(--space-4);
+}
+
+.logo {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	text-decoration: none;
+	font-family: var(--font-serif);
+	font-weight: 700;
+	font-size: 1.125rem;
+	color: var(--color-text);
+}
+
+.logo__icon { font-size: 1.25rem; }
+
+.nav-links {
+	display: flex;
+	gap: var(--space-1);
+	align-items: center;
+}
+
+.nav-links a {
+	padding: var(--space-2) var(--space-3);
+	border-radius: var(--radius-card);
+	font-size: 0.9375rem;
+	font-weight: 500;
+	color: var(--color-text-muted);
+	text-decoration: none;
+	transition: all 0.1s;
+}
+
+.nav-links a:hover {
+	color: var(--color-text);
+	background: var(--color-bg);
+	text-decoration: none;
+}
+
+.nav-links a.active {
+	color: var(--color-accent);
+	background: var(--color-accent-bg);
+	font-weight: 600;
+}
+
+.nav-btn {
+	display: flex;
+	align-items: center;
+	padding: var(--space-2);
+	border-radius: var(--radius-card);
+	color: var(--color-text-muted);
+	transition: all 0.1s;
+}
+
+.nav-btn:hover {
+	color: var(--color-accent);
+	background: var(--color-accent-bg);
+}
+
+.mobile-menu-btn {
+	display: none;
+	flex-direction: column;
+	gap: 4px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: var(--space-2);
+}
+
+.mobile-menu-btn span {
+	display: block;
+	width: 20px;
+	height: 2px;
+	background: var(--color-text);
+	border-radius: 2px;
+}
+
+@media (max-width: 720px) {
+	.nav-links { display: none; }
+	.mobile-menu-btn { display: flex; }
+	
+	.site-header.open .nav-links {
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		top: 56px;
+		left: 0;
+		right: 0;
+		background: var(--color-surface);
+		border-bottom: 1px solid var(--color-border);
+		padding: var(--space-4);
+		box-shadow: var(--shadow-lg);
+	}
+}
+</style>

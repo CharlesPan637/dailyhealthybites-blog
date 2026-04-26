@@ -1,0 +1,392 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import SEOHead from '../components/SEOHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { Image } from 'astro:assets';
+import blogPlaceholder from '../assets/blog-placeholder-1.jpg';
+
+const posts = (await getCollection('blog')).filter((p) => !p.data.draft).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const slugToCategoryClass = (cat: string) => {
+  const map: Record<string, string> = {
+    'Nutrition': 'nutrition',
+    'Sleep': 'sleep',
+    'Mental Health': 'mental-health',
+    'Fitness': 'fitness',
+    'Gut Health': 'gut-health',
+    'Longevity': 'longevity',
+    'Research': 'research',
+  };
+  return map[cat] || 'nutrition';
+};
+---
+
+<html lang="en">
+<head>
+  <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  <SEOHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Healthy Daily Bites",
+    "url": "https://dailyhealthybites.net",
+    "description": "Science-backed health and longevity insights. Evidence you can trust, advice you can use.",
+    "author": {
+      "@type": "Person",
+      "name": "James Harper, PhD",
+      "description": "PhD in Microbiology and Immunology from the Weizmann Institute of Science"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Healthy Daily Bites",
+      "url": "https://dailyhealthybites.net",
+      "logo": { "@type": "ImageObject", "url": "https://dailyhealthybites.net/favicon.svg" }
+    }
+  })}></script>
+</head>
+<body>
+  <Header />
+  <div id="reading-progress"></div>
+
+  <main class="homepage">
+    <section class="hero-section">
+      <h1>{SITE_TITLE}</h1>
+      <p class="sub">{SITE_DESCRIPTION}</p>
+      <a href="/posts/" class="hero-cta">Browse Latest Research</a>
+    </section>
+
+    {posts.length > 0 && (
+      <div class="container">
+        {/* Featured hero: first, most recent post */}
+        {posts[0] && (
+          <a href={'/posts/' + posts[0].id + '/'} class="hero-card-wrapper">
+            <div class="hero-card">
+              <Image
+                src={posts[0].data.heroImage || blogPlaceholder}
+                alt={posts[0].data.title}
+                format="webp"
+                widths={[400, 800, 1200]}
+                sizes="(max-width: 720px) 100vw, 80vw"
+                class="hero-card__bg"
+              />
+              <div class="hero-card__overlay">
+                <span class={'tag-pill tag-pill--' + slugToCategoryClass(posts[0].data.category)}>{posts[0].data.category}</span>
+                <h3 class="hero-card__title hero-card__title--featured">{posts[0].data.title}</h3>
+                  <p class="hero-card__desc">{posts[0].data.description}</p>
+                <div class="hero-card__meta">
+                  <span>{posts[0].data.pubDate.toLocaleDateString('en-us', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                  <span>&middot;</span>
+                  <span>{posts[0].data.author || 'James Harper'}, PhD</span>
+                  <span>&middot;</span>
+                  <span>{posts[0].data.readingTime}</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        )}
+
+        {/* Rest of posts in feed list */}
+        {posts.slice(1).map((post) => (
+          <a href={'/posts/' + post.id + '/'} class="article-card">
+            <div class="feed-card">
+              <div class="feed-card__image">
+                <Image
+                  src={post.data.heroImage || blogPlaceholder}
+                  alt={post.data.title}
+                  format="webp"
+                  widths={[200, 400]}
+                  sizes="180px"
+                  class="feed-card__img"
+                />
+              </div>
+              <div class="feed-card__content">
+                <span class={'tag-pill tag-pill--' + slugToCategoryClass(post.data.category)}>{post.data.category}</span>
+                <h3 class="article-card__title">{post.data.title}</h3>
+                <p class="article-card__desc">{post.data.description}</p>
+                <div class="article-card__meta">
+                  <span>{post.data.pubDate.toLocaleDateString('en-us', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                  <span>&middot;</span>
+                  <span>{post.data.readingTime}</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+
+    {posts.length === 0 && (
+      <div class="container">
+        <p class="empty-state">No posts yet. Coming soon.</p>
+      </div>
+    )}
+
+      {/* Newsletter CTA */}
+    <div class="container">
+      <div class="newsletter-cta">
+        <h3 class="newsletter-cta__title">Stay informed. No fluff.</h3>
+        <p class="newsletter-cta__sub">Evidence-based health insights delivered regularly. No hype, no supplement pitches.</p>
+        <form class="newsletter-cta__form" data-subscribe-form>
+          <input type="email" placeholder="your@email.com" aria-label="Email address" required>
+          <button type="submit">Subscribe</button>
+          <span class="subscribe-msg" style="display:none;font-size:0.85rem;margin-top:6px"></span>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+
+  <script>
+    // Newsletter subscribe handler
+    window.handleSubscribe = async function(form, event) {
+      event.preventDefault();
+      const input = form.querySelector('input[type="email"]');
+      const msg = form.querySelector('.subscribe-msg');
+      const email = input.value.trim();
+      if (!email) return false;
+      input.disabled = true;
+      form.querySelector('button[type="submit"]').disabled = true;
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({email})
+        });
+        const data = await res.json();
+        if (data.status === 'ok' || data.status === 'already_subscribed') {
+          msg.textContent = data.status === 'ok' ? "Thanks! You're subscribed." : "You're already subscribed.";
+          msg.style.color = '#16a34a';
+          input.value = '';
+        } else {
+          msg.textContent = data.error || 'Something went wrong.';
+          msg.style.color = '#dc2626';
+        }
+      } catch(e) {
+        msg.textContent = 'Network error. Please try again.';
+        msg.style.color = '#dc2626';
+      }
+      msg.style.display = 'block';
+      input.disabled = false;
+      form.querySelector('button[type="submit"]').disabled = false;
+      return false;
+    };
+
+    // Reading progress bar
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const scrollPercent = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      const bar = document.getElementById('reading-progress');
+      if (bar) bar.style.width = scrollPercent + '%';
+    });
+  </script>
+</body>
+</html>
+
+<style is:global>
+  @import url('../styles/global.css');
+</style>
+
+<style is:inline>
+  .homepage { }
+  
+  .hero-section {
+    text-align: center;
+    padding: var(--space-8) var(--space-4) var(--space-6);
+    background: linear-gradient(180deg, var(--color-accent-bg) 0%, transparent 100%);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-6);
+  }
+
+  .hero-section h1 {
+    font-size: 2.8rem;
+    margin-bottom: var(--space-2);
+    color: var(--color-text);
+  }
+
+  .sub {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    margin-top: var(--space-4);
+    padding: 0.65rem 1.6rem;
+    background: var(--color-accent);
+    color: #fff;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .hero-cta:hover {
+    background: var(--color-accent-hover, #1B4332);
+    transform: translateY(-1px);
+  }
+
+  .container {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+  }
+
+  /* Hero card on homepage */
+  .hero-card-wrapper {
+    text-decoration: none;
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+
+  .hero-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-hero);
+    min-height: 380px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .hero-card:hover {
+    transform: scale(1.01);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .hero-card__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-card__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-6);
+    background: linear-gradient(transparent, rgba(0,0,0,0.75));
+    color: white;
+  }
+
+  .hero-card__title {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    margin: var(--space-2) 0;
+    color: white;
+  }
+
+  .hero-card__title--featured {
+    font-size: 2.2rem;
+  }
+
+  .hero-card__desc {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.85);
+    margin: 0 0 var(--space-2);
+    max-width: 600px;
+  }
+
+  .hero-card__meta {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.7);
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  /* Feed cards */
+  .feed-card {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+
+  .feed-card__image {
+    flex-shrink: 0;
+    width: 180px;
+    height: 120px;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+
+  .feed-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .feed-card__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Newsletter CTA */
+  .newsletter-cta {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+
+  .newsletter-cta__form {
+    display: flex;
+    gap: var(--space-2);
+    max-width: 400px;
+    margin: var(--space-4) auto 0;
+  }
+
+  .newsletter-cta__form input {
+    flex: 1;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    font-size: 0.9375rem;
+    outline: none;
+    background: var(--color-surface);
+  }
+
+  .newsletter-cta__form input:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-accent-bg);
+  }
+
+  .newsletter-cta__form button {
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-card);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+
+  .newsletter-cta__form button:hover {
+    background: var(--color-accent-hover);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-10);
+    color: var(--color-text-muted);
+    font-size: 1.125rem;
+  }
+
+  @media (max-width: 720px) {
+    .hero-section h1 { font-size: 1.8rem; }
+    .hero-card { min-height: 280px; }
+    .hero-card__title { font-size: 1.3rem !important; }
+    .hero-card__title--featured { font-size: 1.5rem !important; }
+    .feed-card { flex-direction: column !important; }
+    .feed-card__image { width: 100% !important; height: 200px; }
+    .newsletter-cta__form { flex-direction: column; }
+  }
+</style>

@@ -1,0 +1,8 @@
+
+import __ASTRO_IMAGE_IMPORT_178N9M from "../../images/glp1-hero.png?astroContentImageFlag=&importer=src%2Fcontent%2Fblog%2Fglp1-muscle-loss-science-explained.md";
+import __ASTRO_IMAGE_IMPORT_Z2eEQGe from "../../images/med-diet-hero.png?astroContentImageFlag=&importer=src%2Fcontent%2Fblog%2Fmediterranean-diet-longevity-science.md";
+import __ASTRO_IMAGE_IMPORT_Z1NIMrY from "../../images/quercetin-hero.png?astroContentImageFlag=&importer=src%2Fcontent%2Fblog%2Fquercetin-the-plant-pigment-that-fights-inflammation.md";
+import __ASTRO_IMAGE_IMPORT_Z1RgC29 from "../../images/spermidine-hero.png?astroContentImageFlag=&importer=src%2Fcontent%2Fblog%2Fspermidine-does-spermidine-slow-aging-what-the-science-actually-shows.md";
+import __ASTRO_IMAGE_IMPORT_1roc0L from "../../images/zoe-hero.png?astroContentImageFlag=&importer=src%2Fcontent%2Fblog%2Fzoe-microbiome-rankings.md";
+export default new Map([["../../images/glp1-hero.png?astroContentImageFlag=&importer=src%2Fcontent%2Fblog%2Fglp1-muscle-loss-science-explained.md", __ASTRO_IMAGE_IMPORT_178N9M], ["../../images/med-diet-hero.png?astroContentImageFlag=&importer=src%2Fcontent%2Fblog%2Fmediterranean-diet-longevity-science.md", __ASTRO_IMAGE_IMPORT_Z2eEQGe], ["../../images/quercetin-hero.png?astroContentImageFlag=&importer=src%2Fcontent%2Fblog%2Fquercetin-the-plant-pigment-that-fights-inflammation.md", __ASTRO_IMAGE_IMPORT_Z1NIMrY], ["../../images/spermidine-hero.png?astroContentImageFlag=&importer=src%2Fcontent%2Fblog%2Fspermidine-does-spermidine-slow-aging-what-the-science-actually-shows.md", __ASTRO_IMAGE_IMPORT_Z1RgC29], ["../../images/zoe-hero.png?astroContentImageFlag=&importer=src%2Fcontent%2Fblog%2Fzoe-microbiome-rankings.md", __ASTRO_IMAGE_IMPORT_1roc0L]]);
+		

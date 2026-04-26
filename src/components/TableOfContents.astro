@@ -1,0 +1,139 @@
+---
+/**
+ * TableOfContents — sticky sidebar with scrollspy
+ * 
+ * Expects article HTML with id'd headings. Automatically
+ * generates links and highlights the active section.
+ */
+---
+
+<nav class="toc" aria-label="Table of Contents">
+  <p class="toc__title">Contents</p>
+  <ul class="toc__list" id="toc-list">
+    <!-- Populated by JS from article headings -->
+  </ul>
+</nav>
+
+<script define:vars={{}} is:inline>
+document.addEventListener('DOMContentLoaded', () => {
+  const article = document.querySelector('article, .prose');
+  const tocList = document.getElementById('toc-list');
+  if (!article || !tocList) return;
+
+  // Find all H2 and H3 headings in the article, skip newsletter CTA and disclaimer headings
+  const headings = article.querySelectorAll('h2, h3');
+  if (headings.length === 0) return;
+
+  // Add IDs and build TOC — skip newsletter, disclaimer, and utility headings
+  headings.forEach((h, i) => {
+    const text = h.textContent.toLowerCase();
+    if (text.includes('more like this') || text.includes('stay informed') || text.includes('stay informed. no fluff')) return;
+    const id = h.id || `toc-heading-${i}`;
+    h.id = id;
+
+    const li = document.createElement('li');
+    li.dataset.target = id;
+    const a = document.createElement('a');
+    a.href = `#${id}`;
+    a.textContent = h.textContent;
+    if (h.tagName === 'H3') {
+      li.classList.add('toc__sub');
+      a.classList.add('toc__sub-link');
+    }
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
+
+  // Scrollspy: highlight active section
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.toc__list li').forEach((li) => {
+            li.classList.remove('toc__active');
+          });
+          const active = document.querySelector(`.toc__list li[data-target="${entry.target.id}"]`);
+          if (active) active.classList.add('toc__active');
+        }
+      });
+    },
+    { rootMargin: '0px 0px -70% 0px', threshold: 0.1 }
+  );
+
+  headings.forEach((h) => observer.observe(h));
+});
+</script>
+
+<style>
+.toc {
+  position: sticky;
+  top: 80px;
+  max-width: 200px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.toc__title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-faint);
+  margin: 0 0 var(--space-3) 0;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.toc__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc__list li {
+  margin: 0;
+  padding: var(--space-1) 0;
+}
+
+.toc__list a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  display: block;
+  padding: 2px 0 2px var(--space-3);
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+}
+
+.toc__list a:hover {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.toc__active a {
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
+  font-weight: 500;
+}
+
+.toc__sub {
+  padding-left: var(--space-3);
+}
+
+.toc__sub-link {
+  font-size: 13px;
+  color: var(--color-text-faint);
+}
+
+@media (max-width: 1024px) {
+  .toc {
+    position: static;
+    max-width: 100%;
+    margin-bottom: var(--space-5);
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+  }
+}
+</style>

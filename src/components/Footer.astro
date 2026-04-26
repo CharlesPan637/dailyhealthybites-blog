@@ -1,0 +1,84 @@
+---
+const today = new Date();
+---
+
+<footer class="site-footer">
+	<div class="footer-inner">
+		<div class="footer-brand">
+			<span class="footer-logo">&#x1F33F; Healthy Daily Bites</span>
+			<p class="footer-tagline">Science-backed health and longevity insights. Evidence you can trust, advice you can use.</p>
+		</div>
+		<div class="footer-links">
+			<a href="/">Home</a>
+			<a href="/posts">Blog</a>
+			<a href="/about">About</a>
+			<a href="/rss.xml">RSS</a>
+		</div>
+		<div class="footer-contact">
+			<a href="mailto:contact@dailyhealthybites.net">contact@dailyhealthybites.net</a>
+		</div>
+		<p class="footer-copyright">
+			&copy; {today.getFullYear()} Healthy Daily Bites. Written by James Harper, PhD. All rights reserved.
+		</p>
+	</div>
+</footer>
+
+<style>
+.site-footer {
+	background: var(--color-surface);
+	border-top: 1px solid var(--color-border);
+	padding: var(--space-8) var(--space-4);
+}
+
+.footer-inner {
+	max-width: var(--page-width);
+	margin: 0 auto;
+	text-align: center;
+}
+
+.footer-logo {
+	font-family: var(--font-serif);
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--color-text);
+	display: block;
+	margin-bottom: var(--space-2);
+}
+
+.footer-tagline {
+	font-size: 0.9375rem;
+	color: var(--color-text-muted);
+	max-width: 400px;
+	margin: 0 auto var(--space-5);
+	line-height: 1.5;
+}
+
+.footer-links {
+	display: flex;
+	justify-content: center;
+	gap: var(--space-5);
+	margin-bottom: var(--space-4);
+}
+
+.footer-links a {
+	font-size: 0.9375rem;
+	color: var(--color-text-muted);
+	text-decoration: none;
+}
+
+.footer-links a:hover {
+	color: var(--color-accent);
+}
+
+.footer-contact a {
+	font-family: var(--font-mono);
+	font-size: 13px;
+	color: var(--color-text-muted);
+}
+
+.footer-copyright {
+	font-size: 13px;
+	color: var(--color-text-faint);
+	margin-top: var(--space-5);
+}
+</style>

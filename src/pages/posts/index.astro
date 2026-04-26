@@ -1,0 +1,224 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import SEOHead from '../../components/SEOHead.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Header from '../../components/Header.astro';
+import { SITE_TITLE } from '../../consts';
+import { Image } from 'astro:assets';
+import blogPlaceholder from '../../assets/blog-placeholder-1.jpg';
+
+const posts = (await getCollection('blog')).filter((p) => !p.data.draft).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const slugToCategoryClass = (cat: string) => {
+  const map: Record<string, string> = {
+    'Nutrition': 'nutrition',
+    'Sleep': 'sleep',
+    'Mental Health': 'mental-health',
+    'Fitness': 'fitness',
+    'Gut Health': 'gut-health',
+    'Longevity': 'longevity',
+    'Research': 'research',
+  };
+  return map[cat] || 'nutrition';
+};
+
+const allCategories = ['Nutrition', 'Sleep', 'Mental Health', 'Fitness', 'Gut Health', 'Longevity', 'Research'];
+const activeCategories = allCategories.filter(cat => posts.some(p => p.data.category === cat));
+---
+
+<html lang="en">
+<head>
+  <BaseHead title={'Posts - ' + SITE_TITLE} description={'All articles from Healthy Daily Bites'} />
+  <SEOHead title={'All Posts - ' + SITE_TITLE} description={'All articles from Healthy Daily Bites'} />
+</head>
+<body>
+  <Header />
+  <div id="reading-progress"></div>
+
+  <main class="posts-page">
+    <div class="container">
+      <h1>All Posts</h1>
+      <p class="lead">The complete archive, newest first. Every claim backed by primary literature.</p>
+
+      <div class="category-filter" role="tablist" aria-label="Filter by category">
+        <button class="filter-btn active" data-category="all" role="tab" aria-selected="true">All</button>
+        {activeCategories.map((cat) => (
+          <button class="filter-btn" data-category={cat} role="tab" aria-selected="false">{cat}</button>
+        ))}
+      </div>
+
+      <div class="posts-list">
+        {posts.map((post) => (
+          <a href={'/posts/' + post.id + '/'} class="article-card" data-category={post.data.category}>
+            <div class="feed-card">
+              <div class="feed-card__image">
+                <Image
+                  src={post.data.heroImage || blogPlaceholder}
+                  alt={post.data.title}
+                  format="webp"
+                  widths={[200, 400]}
+                  sizes="180px"
+                  class="feed-card__img"
+                />
+              </div>
+              <div class="feed-card__content">
+                <span class={'tag-pill tag-pill--' + slugToCategoryClass(post.data.category)}>{post.data.category}</span>
+                <h3 class="article-card__title">{post.data.title}</h3>
+                <p class="article-card__desc">{post.data.description}</p>
+                <div class="article-card__meta">
+                  <span><FormattedDate date={post.data.pubDate} /></span>
+                  <span>&middot;</span>
+                  <span>{post.data.readingTime}</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <p class="empty-state" style="display:none;">No posts in this category yet.</p>
+    </div>
+  </main>
+
+  <Footer />
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      const bar = document.getElementById('reading-progress');
+      if (bar) bar.style.width = pct + '%';
+    });
+
+    // Category filter
+    const btns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.article-card');
+    const emptyMsg = document.querySelector('.empty-state') as HTMLElement;
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        const cat = (btn as HTMLElement).dataset.category;
+        let visible = 0;
+
+        cards.forEach(card => {
+          const cardCat = (card as HTMLElement).dataset.category;
+          const show = cat === 'all' || cardCat === cat;
+          (card as HTMLElement).style.display = show ? '' : 'none';
+          if (show) visible++;
+        });
+
+        if (emptyMsg) emptyMsg.style.display = visible === 0 ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
+
+<style is:global>
+  @import url('../../styles/global.css');
+</style>
+
+<style is:inline>
+  .posts-page {
+    padding: var(--space-6) 0 var(--space-8);
+  }
+
+  .container {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+  }
+
+  .container h1 {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .lead {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: var(--space-6);
+  }
+
+  .filter-btn {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .filter-btn.active {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .feed-card {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+
+  .feed-card__image {
+    flex-shrink: 0;
+    width: 180px;
+    height: 120px;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+
+  .feed-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .feed-card__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: var(--space-6) 0;
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 720px) {
+    .container h1 { font-size: 1.8rem; }
+    .feed-card { flex-direction: column !important; }
+    .feed-card__image { width: 100% !important; height: 200px; }
+    .filter-btn { padding: 0.35rem 0.8rem; font-size: 0.8rem; }
+  }
+</style>

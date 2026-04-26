@@ -1,0 +1,195 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import SEOHead from '../components/SEOHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import aboutImg from '../assets/blog-placeholder-about.jpg';
+import { Image } from 'astro:assets';
+---
+
+<html lang="en">
+<head>
+  <BaseHead title={'About - ' + SITE_TITLE} description={SITE_DESCRIPTION} />
+  <SEOHead title={'About - ' + SITE_TITLE} description={SITE_DESCRIPTION} />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "James Harper, PhD",
+    "description": "Holds a PhD in Microbiology and Immunology from the Weizmann Institute of Science. Over 25 years of research experience.",
+    "knowsAbout": ["microbiology", "immunology", "nutrition", "longevity", "gut health", "genomics"],
+    "affiliation": {
+      "@type": "Organization",
+      "name": "Healthy Daily Bites"
+    }
+  })}></script>
+</head>
+<body>
+  <Header />
+  <div id="reading-progress"></div>
+
+  <main class="about-page">
+    <div class="container">
+      <h1>About Healthy Daily Bites</h1>
+      <p class="lead">Bridging the gap between complex scientific research and practical health advice. Every article grounded in primary literature.</p>
+
+      <div class="author-card">
+        <div class="author-card__avatar">
+          <span>&#x1F52C;</span>
+        </div>
+        <div class="author-card__info">
+          <h2>James Harper, PhD</h2>
+          <p class="author-card__title">Microbiology & Immunology | 25+ Years in Science &amp; Healthcare</p>
+          <p>Holds a PhD in Microbiology and Immunology from the Weizmann Institute of Science. Over 25 years of research experience in genomics, infectious disease diagnostics, and the US healthcare industry. Current focus: translating clinical research into clear, actionable health insights for everyday readers.</p>
+        </div>
+      </div>
+
+      <h2>What We Do</h2>
+      <p>Healthy Daily Bites is an independent publication that bridges the gap between complex scientific research and practical health advice. Every article is grounded in primary literature — RCTs, cohort studies, and meta-analyses — with every claim linked to its source.</p>
+
+      <h2>Editorial Standards</h2>
+      <ul class="standards-list">
+        <li><strong>Primary sources first.</strong> We cite peer-reviewed studies, not media summaries.</li>
+        <li><strong>Correlation is not causation.</strong> We always make the distinction explicit.</li>
+        <li><strong>Flag emerging research.</strong> If evidence is early or limited, we say so.</li>
+        <li><strong>No supplement brands.</strong> We never recommend specific products or brands.</li>
+        <li><strong>PhD-level depth, Morning Brew readability.</strong> Complex science made clear.</li>
+        <li><strong>Claims verified through peer-reviewed literature.</strong> All citations must be published in peer-reviewed journals, with preference for 2020 or later.</li>
+      </ul>
+
+      <h2>Corrections Policy</h2>
+      <p>Accuracy matters. If you find an error or omission in any article, we want to know. Send corrections to <a href="mailto:contact@dailyhealthybites.net">contact@dailyhealthybites.net</a> with the article URL and a brief description of the issue. We review all correction requests and, if warranted, update the article with a note acknowledging the change.</p>
+
+      <h2>Independence & Disclosure</h2>
+      <p>Healthy Daily Bites is an independent publication. We do not accept sponsored content, paid placements, or affiliate revenue from supplement companies or pharmaceutical brands. No content is influenced by external commercial interests. The sole mission is to translate clinical research into clear, actionable health information.</p>
+
+      <h2>Topics We Cover</h2>
+      <div class="topic-grid">
+        <span class="topic-card"><strong>Nutrition</strong> — evidence-based dietary guidance</span>
+        <span class="topic-card"><strong>Longevity</strong> — the science of healthy aging</span>
+        <span class="topic-card"><strong>Gut Health</strong> — microbiome research made practical</span>
+        <span class="topic-card"><strong>Sleep</strong> — recovery, cognition, and metabolism</span>
+        <span class="topic-card"><strong>Mental Health</strong> — brain health and cognitive aging</span>
+        <span class="topic-card"><strong>Fitness</strong> — movement science and exercise</span>
+      </div>
+
+      <h2>Contact</h2>
+      <p>Questions, corrections, or topic suggestions? <a href="mailto:contact@dailyhealthybites.net">contact@dailyhealthybites.net</a></p>
+    </div>
+  </main>
+
+  <Footer />
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      const bar = document.getElementById('reading-progress');
+      if (bar) bar.style.width = pct + '%';
+    });
+  </script>
+</body>
+</html>
+
+<style is:global>
+  @import url('../styles/global.css');
+</style>
+
+<style is:inline>
+  .about-page {
+    padding: var(--space-6) 0;
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+  }
+
+  .container h1 {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .lead {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .author-card {
+    display: flex;
+    gap: var(--space-5);
+    align-items: flex-start;
+    padding: var(--space-6);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-hero);
+    margin-bottom: var(--space-8);
+  }
+
+  .author-card__avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--color-accent-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .author-card__info h2 {
+    margin: 0 0 var(--space-1);
+    font-size: 1.5rem;
+  }
+
+  .author-card__title {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .author-card__info p {
+    margin-bottom: 0;
+    max-width: 100%;
+  }
+
+  .standards-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .standards-list li {
+    padding: var(--space-3) var(--space-4);
+    border-left: 3px solid var(--color-accent);
+    margin-bottom: var(--space-3);
+    background: var(--color-accent-bg);
+    border-radius: 0 var(--radius-card) var(--radius-card) 0;
+    line-height: 1.6;
+  }
+
+  .topic-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .topic-card {
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    display: block;
+  }
+
+  .topic-card strong {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 720px) {
+    .container h1 { font-size: 1.8rem; }
+    .author-card { flex-direction: column; align-items: center; text-align: center; }
+  }
+</style>

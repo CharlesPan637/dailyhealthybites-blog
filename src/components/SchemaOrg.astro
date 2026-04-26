@@ -1,0 +1,96 @@
+---
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  lastReviewedDate?: Date;
+  heroImage?: string;
+  authorName: string;
+  slug: string;
+  category: string;
+  faqs?: FAQ[];
+  isHomepage?: boolean;
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  lastReviewedDate,
+  heroImage,
+  authorName,
+  slug,
+  category,
+  faqs,
+  isHomepage,
+} = Astro.props;
+
+const site = 'https://dailyhealthybites.net';
+const url = `${site}/${slug}`;
+const ogImage = heroImage?.startsWith('http') ? heroImage : heroImage ? `${site}${heroImage}` : `${site}/favicon.svg`;
+const safeDesc = description.length > 155 ? description.substring(0, 152) + '...' : description;
+const dateModified = lastReviewedDate || updatedDate || pubDate;
+
+// BreadcrumbList
+const breadcrumbItems = isHomepage
+  ? [{ "@type": "ListItem", "position": 1, "name": "Home", "item": site }]
+  : [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": site },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": `${site}/posts/` },
+      { "@type": "ListItem", "position": 3, "name": title, "item": url },
+    ];
+
+const breadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbItems,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": safeDesc,
+  "author": {
+    "@type": "Person",
+    "name": authorName,
+    "description": "PhD in Microbiology and Immunology from the Weizmann Institute of Science",
+    "url": `${site}/about`,
+    "sameAs": []
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Healthy Daily Bites",
+    "url": site,
+    "logo": { "@type": "ImageObject", "url": `${site}/favicon.svg` }
+  },
+  "mainEntityOfPage": url,
+  "image": ogImage,
+  "datePublished": pubDate.toISOString(),
+  "dateModified": dateModified.toISOString(),
+})}></script>
+
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumb)}></script>
+
+{faqs && faqs.length > 0 && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.answer
+      }
+    }))
+  })}></script>
+)}
